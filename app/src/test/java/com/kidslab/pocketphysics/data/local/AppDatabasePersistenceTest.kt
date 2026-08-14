@@ -71,8 +71,15 @@ class AppDatabasePersistenceTest {
         db.sensorExperimentDao().insertAll(
             listOf(SensorExperiment("mov_quieto", "ACCELEROMETER", "movimiento", "Título", "¿Pregunta?", 1))
         )
-        val resumen = MeasurementSummary(0, "ACCELEROMETER", 0f, 1f, 0.5f, 1000, 10)
-        val resultado = ExperimentResult(0, true, "ok", "ok")
+        val resumen = MeasurementSummary(
+            sessionId = 0, sensorType = "ACCELEROMETER",
+            valorMinimo = 0f, valorMaximo = 1f, valorPromedio = 0.5f,
+            duracionMs = 1000L, muestrasAnalizadas = 10
+        )
+        val resultado = ExperimentResult(
+            sessionId = 0, prediccionCorrecta = true,
+            textoResultado = "ok", textoConclusion = "ok"
+        )
 
         db.experimentSessionDao().saveFullSession(
             ExperimentSession(profileId = profileId, experimentKey = "mov_quieto", fecha = 100L, durationMs = 1000L), "pred1", resumen, resultado
