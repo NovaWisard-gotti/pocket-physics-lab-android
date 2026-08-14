@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Física de Bolsillo</string>
+
+    <!-- Pantalla 1: Científico de bolsillo -->
+    <string name="pantalla_perfil_titulo">Científico de bolsillo</string>
+    <string name="pantalla_perfil_subtitulo">Elige tu avatar y tu nombre de científico</string>
+    <string name="pantalla_perfil_hint_nombre">¿Cómo te llamas, científico?</string>
+    <string name="pantalla_perfil_boton_empezar">Empezar a explorar</string>
+
+    <!-- Pantalla 2: Mis sensores -->
+    <string name="pantalla_sensores_titulo">Mis sensores</string>
+    <string name="sensor_disponible">Disponible</string>
+    <string name="sensor_no_disponible">Este dispositivo no tiene este sensor</string>
+    <string name="sensor_acelerometro_nombre">Acelerómetro</string>
+    <string name="sensor_acelerometro_desc">Mide qué tan rápido cambia el movimiento del teléfono en tres direcciones.</string>
+    <string name="sensor_giroscopio_nombre">Giroscopio</string>
+    <string name="sensor_giroscopio_desc">Mide qué tan rápido gira el teléfono sobre sí mismo.</string>
+    <string name="sensor_microfono_nombre">Micrófono</string>
+    <string name="sensor_microfono_desc">Capta el sonido del ambiente para estudiar su intensidad y su tono.</string>
+    <string name="sensor_luz_nombre">Sensor de luz</string>
+    <string name="sensor_luz_desc">Mide cuánta luz llega a la pantalla del teléfono.</string>
+    <string name="sensor_alternativa_titulo">Experimento alternativo</string>
+
+    <!-- Pantalla 3: Laboratorio de movimiento -->
+    <string name="lab_movimiento_titulo">Laboratorio de movimiento</string>
+    <string name="lab_movimiento_instruccion">Coloca el teléfono sobre una mesa o sostenlo con cuidado. Nunca lo muevas bruscamente.</string>
+    <string name="lab_movimiento_exp_quieto">Experimento: teléfono quieto</string>
+    <string name="lab_movimiento_exp_lateral">Experimento: mover suavemente izquierda y derecha</string>
+    <string name="lab_movimiento_exp_pasos">Experimento: caminar cinco pasos con cuidado</string>
+
+    <!-- Pantalla 4: Laboratorio de rotación -->
+    <string name="lab_rotacion_titulo">Laboratorio de rotación</string>
+    <string name="lab_rotacion_instruccion">Gira el teléfono lentamente sobre la mesa o con ambas manos, sin soltarlo.</string>
+    <string name="lab_rotacion_exp_giro">Experimento: gira aproximadamente 90 grados</string>
+
+    <!-- Pantalla 5: Laboratorio de sonido -->
+    <string name="lab_sonido_titulo">Laboratorio de sonido</string>
+    <string name="lab_sonido_permiso_explicacion">Para escuchar el sonido del ambiente necesitamos usar el micrófono. No grabamos ni guardamos audio: solo lo analizamos en el momento y lo olvidamos.</string>
+    <string name="lab_sonido_permiso_boton">Permitir micrófono</string>
+    <string name="lab_sonido_permiso_denegado">Sin el micrófono no podemos medir el sonido. Puedes intentarlo de nuevo cuando quieras.</string>
+    <string name="lab_sonido_exp_aplauso">Experimento: un aplauso suave, a distancia prudente</string>
+    <string name="lab_sonido_exp_hablar">Experimento: habla con voz normal</string>
+    <string name="lab_sonido_exp_sostenido">Experimento: sonido sostenido (un \"aaaah\")</string>
+    <string name="lab_sonido_exp_comparar_intensidad">Experimento: compara un sonido suave y uno fuerte</string>
+    <string name="lab_sonido_exp_comparar_tono">Experimento: compara un sonido grave y uno agudo</string>
+
+    <!-- Pantalla 6: Laboratorio de luz -->
+    <string name="lab_luz_titulo">Laboratorio de luz</string>
+    <string name="lab_luz_instruccion">Compara la luz de la habitación con la sombra que hace tu mano, sin tapar ni calentar el teléfono.</string>
+
+    <!-- Pantalla 7: Experimentos guiados -->
+    <string name="experimentos_titulo">Experimentos guiados</string>
+
+    <!-- Pantalla 8: Registro científico -->
+    <string name="registro_titulo">Registro científico</string>
+    <string name="registro_vacio">Todavía no has guardado experimentos. ¡Explora un laboratorio para empezar!</string>
+
+    <!-- Pantalla 9: Desafíos -->
+    <string name="desafios_titulo">Desafíos y logros</string>
+
+    <!-- Aviso científico -->
+    <string name="aviso_precision">Los sensores de un teléfono sirven para aprender y comparar, pero no sustituyen instrumentos científicos calibrados.</string>
+
+    <!-- Seguridad -->
+    <string name="aviso_seguridad_general">Realiza todos los experimentos sentado, caminando despacio o con el teléfono apoyado sobre una superficie segura.</string>
+
+    <!-- Navegación -->
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_sensores">Sensores</string>
+    <string name="nav_experimentos">Experimentos</string>
+    <string name="nav_registro">Registro</string>
+    <string name="nav_desafios">Desafíos</string>
+</resources>

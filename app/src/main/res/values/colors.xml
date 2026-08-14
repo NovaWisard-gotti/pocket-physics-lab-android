@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="physics_blue">#3B7DE8</color>
+    <color name="physics_blue_dark">#1E4FA3</color>
+    <color name="physics_orange">#FF9E3D</color>
+    <color name="physics_green">#4CBF7D</color>
+    <color name="physics_purple">#8B6FE0</color>
+    <color name="physics_yellow">#FFD34D</color>
+    <color name="physics_red_soft">#F26D6D</color>
+    <color name="physics_background">#F5F8FF</color>
+    <color name="physics_surface">#FFFFFF</color>
+    <color name="physics_text">#1B2430</color>
+</resources>

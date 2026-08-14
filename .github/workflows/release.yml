@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versión a publicar (ej. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  release:
+    name: Compilar y publicar release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Dar permisos a gradlew
+        run: chmod +x ./gradlew
+
+      - name: Ejecutar tests unitarios
+        run: ./gradlew testDebugUnitTest --stacktrace
+
+      - name: Compilar APK de release
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Renombrar APK
+        run: |
+          mkdir -p release-artifacts
+          cp app/build/outputs/apk/release/app-release-unsigned.apk release-artifacts/FisicaDeBolsillo-v1.0.0.apk
+
+      - name: Instalar pandoc y LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex texlive-latex-recommended texlive-fonts-recommended lmodern fonts-dejavu
+
+      - name: Generar los 3 PDFs obligatorios
+        run: |
+          mkdir -p docs/pdf
+          pandoc docs/MEMORIA_DESCRIPTIVA.md -o docs/pdf/MEMORIA_DESCRIPTIVA.pdf --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -V mainfont="DejaVu Serif" -V monofont="DejaVu Sans Mono" --toc --toc-depth=2 -V colorlinks=true
+          pandoc docs/MANUAL_USUARIO.md -o docs/pdf/MANUAL_USUARIO.pdf --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -V mainfont="DejaVu Serif" -V monofont="DejaVu Sans Mono" --toc --toc-depth=2 -V colorlinks=true
+          pandoc docs/MANUAL_TECNICO.md -o docs/pdf/MANUAL_TECNICO.pdf --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -V mainfont="DejaVu Serif" -V monofont="DejaVu Sans Mono" --toc --toc-depth=2 -V colorlinks=true
+
+      - name: Crear GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Física de Bolsillo v1.0.0"
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+          body: |
+            **Física de Bolsillo (Pocket Physics Lab) v1.0.0**
+
+            Convierte el teléfono en un pequeño laboratorio de física para niños de 8 a 12 años.
+            100% offline, sin permisos innecesarios, solo RECORD_AUDIO para el laboratorio de sonido.
+
+            Incluye 17 experimentos guiados, 4 laboratorios (movimiento, rotación, sonido, luz),
+            registro científico y desafíos con insignias.
+          files: |
+            release-artifacts/FisicaDeBolsillo-v1.0.0.apk
+            docs/pdf/MEMORIA_DESCRIPTIVA.pdf
+            docs/pdf/MANUAL_USUARIO.pdf
+            docs/pdf/MANUAL_TECNICO.pdf

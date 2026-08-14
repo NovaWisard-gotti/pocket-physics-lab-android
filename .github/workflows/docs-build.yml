@@ -1,0 +1,50 @@
+name: Docs Build
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs-build.yml'
+  workflow_dispatch:
+
+jobs:
+  build-pdfs:
+    name: Generar PDFs de documentación
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Instalar pandoc y LaTeX (para PDF)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex texlive-latex-recommended texlive-fonts-recommended lmodern fonts-dejavu
+
+      - name: Crear carpeta de salida
+        run: mkdir -p docs/pdf
+
+      - name: Generar MEMORIA_DESCRIPTIVA.pdf
+        run: pandoc docs/MEMORIA_DESCRIPTIVA.md -o docs/pdf/MEMORIA_DESCRIPTIVA.pdf --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -V mainfont="DejaVu Serif" -V monofont="DejaVu Sans Mono" --toc --toc-depth=2 -V colorlinks=true
+
+      - name: Generar MANUAL_USUARIO.pdf
+        run: pandoc docs/MANUAL_USUARIO.md -o docs/pdf/MANUAL_USUARIO.pdf --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -V mainfont="DejaVu Serif" -V monofont="DejaVu Sans Mono" --toc --toc-depth=2 -V colorlinks=true
+
+      - name: Generar MANUAL_TECNICO.pdf
+        run: pandoc docs/MANUAL_TECNICO.md -o docs/pdf/MANUAL_TECNICO.pdf --pdf-engine=xelatex -V lang=es -V geometry:margin=2.5cm -V mainfont="DejaVu Serif" -V monofont="DejaVu Sans Mono" --toc --toc-depth=2 -V colorlinks=true
+
+      - name: Subir PDFs como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentacion-pdf
+          path: docs/pdf/*.pdf
+
+      - name: Confirmar PDFs actualizados al repositorio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/pdf/*.pdf
+          git diff --staged --quiet || git commit -m "docs: regenerar PDFs [skip ci]"
+          git push
+        continue-on-error: true
