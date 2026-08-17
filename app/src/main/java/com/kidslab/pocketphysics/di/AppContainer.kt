@@ -2,6 +2,7 @@ package com.kidslab.pocketphysics.di
 
 import android.content.Context
 import com.kidslab.pocketphysics.data.audio.AudioRecordSoundRepository
+import com.kidslab.pocketphysics.data.local.ActiveProfileStore
 import com.kidslab.pocketphysics.data.local.AppDatabase
 import com.kidslab.pocketphysics.data.repository.ChallengeRepository
 import com.kidslab.pocketphysics.data.repository.ExperimentRepository
@@ -23,11 +24,12 @@ class AppContainer(context: Context) {
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val database: AppDatabase = AppDatabase.getInstance(context, applicationScope)
+    private val activeProfileStore = ActiveProfileStore(context)
 
     val sensorRepository: SensorRepository = SensorManagerRepository(context)
     val soundRepository: SoundRepository = AudioRecordSoundRepository(context)
 
-    val profileRepository = ProfileRepository(database.userProfileDao())
+    val profileRepository = ProfileRepository(database.userProfileDao(), activeProfileStore)
     val experimentRepository = ExperimentRepository(database.sensorExperimentDao(), database.experimentSessionDao())
     val challengeRepository = ChallengeRepository(
         database.challengeDao(),

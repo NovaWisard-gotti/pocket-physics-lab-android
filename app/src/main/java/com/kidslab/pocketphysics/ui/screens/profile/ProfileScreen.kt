@@ -1,9 +1,10 @@
 package com.kidslab.pocketphysics.ui.screens.profile
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,12 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,19 +25,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kidslab.pocketphysics.R
 import com.kidslab.pocketphysics.ui.AppViewModelFactory
-
-private val AVATAR_EMOJI = mapOf(
-    "atomo" to "⚛️", "cohete" to "🚀", "lupa" to "🔍",
-    "iman" to "🧲", "prisma" to "🔺", "engranaje" to "⚙️"
-)
+import com.kidslab.pocketphysics.ui.components.BouncyCard
+import com.kidslab.pocketphysics.ui.components.FunButton
+import com.kidslab.pocketphysics.ui.components.HorizontalScrollHint
+import com.kidslab.pocketphysics.ui.components.ProfileAvatar
+import com.kidslab.pocketphysics.ui.theme.AppBackgroundGradient
+import com.kidslab.pocketphysics.ui.theme.PhysicsPurple
 
 @Composable
 fun ProfileScreen(factory: AppViewModelFactory, onPerfilListo: () -> Unit) {
@@ -44,86 +46,83 @@ fun ProfileScreen(factory: AppViewModelFactory, onPerfilListo: () -> Unit) {
     val state by viewModel.uiState.collectAsState()
 
     LaunchedEffect(state.perfilCreado) {
-        if (state.perfilCreado && state.profile != null) {
+        if (state.perfilCreado) {
             onPerfilListo()
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .background(Brush.verticalGradient(AppBackgroundGradient))
     ) {
-        Text(
-            text = stringResource(R.string.pantalla_perfil_titulo),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = stringResource(R.string.pantalla_perfil_subtitulo),
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Spacer(Modifier.height(24.dp))
-
-        Card(
-            shape = CircleShape,
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
-            modifier = Modifier.height(96.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = AVATAR_EMOJI[state.avatarSeleccionado] ?: "⚛️",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-            }
-        }
+            Text(
+                text = "🧑‍🔬 " + stringResource(R.string.pantalla_perfil_titulo),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.ExtraBold,
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.pantalla_perfil_subtitulo),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.height(28.dp))
 
-        Spacer(Modifier.height(16.dp))
+            ProfileAvatar(avatarKey = state.avatarSeleccionado, size = 108.dp)
 
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(AVATARES_DISPONIBLES) { avatarKey ->
-                Card(
-                    shape = CircleShape,
-                    colors = CardDefaults.cardColors(
-                        containerColor = if (avatarKey == state.avatarSeleccionado)
-                            MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant
-                    ),
-                    onClick = { viewModel.onAvatarSeleccionado(avatarKey) }
-                ) {
-                    Row(
-                        modifier = Modifier.padding(14.dp),
-                        horizontalArrangement = Arrangement.Center
+            Spacer(Modifier.height(20.dp))
+
+            val listState = rememberLazyListState()
+            LazyRow(state = listState, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                items(AVATARES_DISPONIBLES) { avatarKey ->
+                    val seleccionado = avatarKey == state.avatarSeleccionado
+                    BouncyCard(
+                        onClick = { viewModel.onAvatarSeleccionado(avatarKey) },
+                        shape = CircleShape,
+                        backgroundColor = androidx.compose.ui.graphics.Color.Transparent,
+                        modifier = if (seleccionado) {
+                            Modifier.border(3.dp, PhysicsPurple, CircleShape)
+                        } else Modifier
                     ) {
-                        Text(AVATAR_EMOJI[avatarKey] ?: "⚛️", style = MaterialTheme.typography.titleLarge)
+                        ProfileAvatar(avatarKey = avatarKey, size = 56.dp, modifier = Modifier.padding(3.dp))
                     }
                 }
             }
-        }
+            HorizontalScrollHint(listState = listState, texto = "Más avatares →", modifier = Modifier.fillMaxWidth())
 
-        Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(20.dp))
 
-        OutlinedTextField(
-            value = state.nombreEnEdicion,
-            onValueChange = viewModel::onNombreChanged,
-            label = { Text(stringResource(R.string.pantalla_perfil_hint_nombre)) },
-            modifier = Modifier.fillMaxWidth()
-        )
+            OutlinedTextField(
+                value = state.nombreEnEdicion,
+                onValueChange = viewModel::onNombreChanged,
+                label = { Text(stringResource(R.string.pantalla_perfil_hint_nombre)) },
+                singleLine = true,
+                shape = RoundedCornerShape(18.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = PhysicsPurple,
+                    cursorColor = PhysicsPurple
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(28.dp))
 
-        Button(
-            onClick = viewModel::guardarPerfil,
-            enabled = state.nombreEnEdicion.isNotBlank() && !state.guardando,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.pantalla_perfil_boton_empezar))
+            FunButton(
+                text = stringResource(R.string.pantalla_perfil_boton_empezar),
+                emoji = "🚀",
+                onClick = viewModel::guardarPerfil,
+                enabled = state.nombreEnEdicion.isNotBlank() && !state.guardando
+            )
         }
     }
 }

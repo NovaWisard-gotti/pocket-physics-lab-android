@@ -9,6 +9,7 @@ import com.kidslab.pocketphysics.ui.screens.experiments.ExperimentsViewModel
 import com.kidslab.pocketphysics.ui.screens.light.LightLabViewModel
 import com.kidslab.pocketphysics.ui.screens.log.LogViewModel
 import com.kidslab.pocketphysics.ui.screens.motion.MotionLabViewModel
+import com.kidslab.pocketphysics.ui.screens.profile.ProfileSelectorViewModel
 import com.kidslab.pocketphysics.ui.screens.profile.ProfileViewModel
 import com.kidslab.pocketphysics.ui.screens.rotation.RotationLabViewModel
 import com.kidslab.pocketphysics.ui.screens.sensors.SensorsViewModel
@@ -24,6 +25,7 @@ class AppViewModelFactory(private val container: AppContainer) : ViewModelProvid
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return when (modelClass) {
             ProfileViewModel::class.java -> ProfileViewModel(container.profileRepository) as T
+            ProfileSelectorViewModel::class.java -> ProfileSelectorViewModel(container.profileRepository) as T
             SensorsViewModel::class.java -> SensorsViewModel(container.sensorRepository, container.soundRepository) as T
             MotionLabViewModel::class.java -> MotionLabViewModel(
                 container.sensorRepository, container.profileRepository, container.experimentRepository, container.challengeRepository

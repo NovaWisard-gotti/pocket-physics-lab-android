@@ -2,7 +2,15 @@
 <resources>
     <string name="app_name">Física de Bolsillo</string>
 
-    <!-- Pantalla 1: Científico de bolsillo -->
+    <!-- Pantalla 0: Selección de perfil (siempre se ve primero al abrir la app) -->
+    <string name="pantalla_selector_titulo">Física de Bolsillo</string>
+    <string name="pantalla_selector_subtitulo">¿Quién va a experimentar hoy? 🧪</string>
+    <string name="pantalla_selector_continuar">Toca para continuar donde lo dejaste ▶️</string>
+    <string name="pantalla_selector_nuevo_titulo">Nuevo científico</string>
+    <string name="pantalla_selector_crear_titulo">Crear mi perfil</string>
+    <string name="pantalla_selector_nuevo_desc">Empieza una nueva aventura desde cero 🚀</string>
+
+    <!-- Pantalla 1: Científico de bolsillo (crear un perfil nuevo) -->
     <string name="pantalla_perfil_titulo">Científico de bolsillo</string>
     <string name="pantalla_perfil_subtitulo">Elige tu avatar y tu nombre de científico</string>
     <string name="pantalla_perfil_hint_nombre">¿Cómo te llamas, científico?</string>

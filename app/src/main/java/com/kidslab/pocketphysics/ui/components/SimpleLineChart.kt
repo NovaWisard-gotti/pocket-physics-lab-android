@@ -4,10 +4,13 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
@@ -31,6 +34,7 @@ fun SimpleLineChart(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
+            .clip(RoundedCornerShape(18.dp))
             .background(MaterialTheme.colorScheme.surface)
     ) {
         if (values.size < 2) return@Canvas
@@ -48,12 +52,23 @@ fun SimpleLineChart(
             )
         }
 
+        val relleno = androidx.compose.ui.graphics.Path().apply {
+            moveTo(points.first().x, size.height)
+            points.forEach { lineTo(it.x, it.y) }
+            lineTo(points.last().x, size.height)
+            close()
+        }
+        drawPath(
+            path = relleno,
+            brush = Brush.verticalGradient(listOf(lineColor.copy(alpha = 0.35f), lineColor.copy(alpha = 0.02f)))
+        )
+
         for (i in 0 until points.size - 1) {
             drawLine(
                 color = lineColor,
                 start = points[i],
                 end = points[i + 1],
-                strokeWidth = 5f,
+                strokeWidth = 6f,
                 cap = StrokeCap.Round
             )
         }
