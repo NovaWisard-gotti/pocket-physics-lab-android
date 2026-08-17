@@ -76,22 +76,32 @@ fun MotionLabScreen(factory: AppViewModelFactory) {
                 )
             }
 
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (state.resultadoTexto == null) {
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    FunButton(
+                        text = "Empezar a medir",
+                        emoji = "▶️",
+                        onClick = viewModel::iniciarMedicion,
+                        enabled = !state.midiendo,
+                        gradient = gradiente.colors,
+                        modifier = Modifier.weight(1f)
+                    )
+                    FunOutlinedButton(
+                        text = "Detener",
+                        emoji = "⏹️",
+                        onClick = viewModel::detenerMedicionYGuardar,
+                        enabled = state.midiendo,
+                        color = gradiente.colors.first(),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            } else {
                 FunButton(
-                    text = "Empezar a medir",
-                    emoji = "▶️",
-                    onClick = viewModel::iniciarMedicion,
-                    enabled = !state.midiendo,
+                    text = "Reiniciar prueba",
+                    emoji = "🔄",
+                    onClick = viewModel::reiniciarPrueba,
                     gradient = gradiente.colors,
-                    modifier = Modifier.weight(1f)
-                )
-                FunOutlinedButton(
-                    text = "Detener",
-                    emoji = "⏹️",
-                    onClick = viewModel::detenerMedicionYGuardar,
-                    enabled = state.midiendo,
-                    color = gradiente.colors.first(),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.padding(top = 16.dp)
                 )
             }
 

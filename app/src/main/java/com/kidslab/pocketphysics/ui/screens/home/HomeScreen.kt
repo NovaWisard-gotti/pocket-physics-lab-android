@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,16 +56,25 @@ fun HomeScreen(navController: NavHostController) {
             .background(Brush.verticalGradient(AppBackgroundGradient))
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(20.dp)) {
-            Text(
-                text = "¡Bienvenido de vuelta, científico! 👋",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.ExtraBold
-            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "¡Bienvenido de vuelta, científico! 👋",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Spacer(Modifier.height(10.dp))
+            CambiarPerfilButton(onClick = {
+                navController.navigate(Rutas.SELECTOR_PERFIL) {
+                    popUpTo(Rutas.INICIO) { inclusive = true }
+                }
+            })
             Text(
                 text = stringResource(R.string.aviso_seguridad_general),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+                modifier = Modifier.padding(top = 12.dp, bottom = 16.dp)
             )
 
             LazyColumn(
@@ -85,6 +95,29 @@ fun HomeScreen(navController: NavHostController) {
                 }
             }
             VerticalScrollHint(listState = listState, modifier = Modifier.fillMaxWidth())
+        }
+    }
+}
+
+@Composable
+private fun CambiarPerfilButton(onClick: () -> Unit) {
+    BouncyCard(
+        onClick = onClick,
+        shape = RoundedCornerShape(50),
+        backgroundColor = MaterialTheme.colorScheme.surface
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("🔄", style = MaterialTheme.typography.bodyLarge)
+            Spacer(Modifier.width(8.dp))
+            Text(
+                "Cambiar de perfil",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

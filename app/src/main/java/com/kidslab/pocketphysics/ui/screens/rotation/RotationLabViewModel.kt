@@ -62,6 +62,21 @@ class RotationLabViewModel(
         _uiState.value = _uiState.value.copy(experimentoKey = experimentKey, resultadoTexto = null, insigniaGanada = false)
     }
 
+    /** Borra el resultado actual para poder repetir la prueba desde cero. */
+    fun reiniciarPrueba() {
+        medicionJob?.cancel()
+        medicionJob = null
+        muestrasSesion.clear()
+        _uiState.value = _uiState.value.copy(
+            midiendo = false,
+            historialMagnitud = emptyList(),
+            anguloEstimado = 0f,
+            prediccion = "",
+            resultadoTexto = null,
+            insigniaGanada = false
+        )
+    }
+
     fun onPrediccionChanged(texto: String) {
         _uiState.value = _uiState.value.copy(prediccion = texto)
     }

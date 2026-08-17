@@ -109,22 +109,32 @@ fun SoundLabScreen(factory: AppViewModelFactory) {
                 )
             }
 
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (state.resultadoTexto == null) {
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    FunButton(
+                        text = "Escuchar",
+                        emoji = "🎧",
+                        onClick = viewModel::iniciarEscucha,
+                        enabled = !state.escuchando,
+                        gradient = gradiente.colors,
+                        modifier = Modifier.weight(1f)
+                    )
+                    FunOutlinedButton(
+                        text = "Detener",
+                        emoji = "⏹️",
+                        onClick = viewModel::detenerEscuchaYGuardar,
+                        enabled = state.escuchando,
+                        color = gradiente.colors.first(),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            } else {
                 FunButton(
-                    text = "Escuchar",
-                    emoji = "🎧",
-                    onClick = viewModel::iniciarEscucha,
-                    enabled = !state.escuchando,
+                    text = "Reiniciar prueba",
+                    emoji = "🔄",
+                    onClick = viewModel::reiniciarPrueba,
                     gradient = gradiente.colors,
-                    modifier = Modifier.weight(1f)
-                )
-                FunOutlinedButton(
-                    text = "Detener",
-                    emoji = "⏹️",
-                    onClick = viewModel::detenerEscuchaYGuardar,
-                    enabled = state.escuchando,
-                    color = gradiente.colors.first(),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.padding(top = 16.dp)
                 )
             }
 

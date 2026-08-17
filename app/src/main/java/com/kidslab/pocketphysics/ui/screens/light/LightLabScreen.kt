@@ -81,52 +81,68 @@ fun LightLabScreen(factory: AppViewModelFactory) {
                 )
             }
 
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (state.resultadoTexto == null) {
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    FunButton(
+                        text = "Medir luz",
+                        emoji = "💡",
+                        onClick = viewModel::iniciarMedicion,
+                        enabled = !state.midiendo,
+                        gradient = gradiente.colors,
+                        modifier = Modifier.weight(1f)
+                    )
+                    FunOutlinedButton(
+                        text = "Detener",
+                        emoji = "⏹️",
+                        onClick = viewModel::detenerMedicionYGuardar,
+                        enabled = state.midiendo,
+                        color = gradiente.colors.first(),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                if (state.midiendo) {
+                    LiveMeasuringBadge(texto = "Midiendo la luz…", color = gradiente.colors.first(), modifier = Modifier.padding(top = 12.dp))
+                }
+
+                Text(
+                    "☀️ Lux actual: ${"%.0f".format(state.luxActual)}",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    FunOutlinedButton(
+                        text = "Habitación",
+                        emoji = "🏠",
+                        onClick = viewModel::registrarComoHabitacion,
+                        enabled = state.midiendo,
+                        color = gradiente.colors.first(),
+                        modifier = Modifier.weight(1f)
+                    )
+                    FunOutlinedButton(
+                        text = "Sombra",
+                        emoji = "🌑",
+                        onClick = viewModel::registrarComoSombra,
+                        enabled = state.midiendo,
+                        color = gradiente.colors[1],
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            } else {
+                Text(
+                    "☀️ Lux actual: ${"%.0f".format(state.luxActual)}",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
                 FunButton(
-                    text = "Medir luz",
-                    emoji = "💡",
-                    onClick = viewModel::iniciarMedicion,
-                    enabled = !state.midiendo,
+                    text = "Reiniciar prueba",
+                    emoji = "🔄",
+                    onClick = viewModel::reiniciarPrueba,
                     gradient = gradiente.colors,
-                    modifier = Modifier.weight(1f)
-                )
-                FunOutlinedButton(
-                    text = "Detener",
-                    emoji = "⏹️",
-                    onClick = viewModel::detenerMedicionYGuardar,
-                    enabled = state.midiendo,
-                    color = gradiente.colors.first(),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            if (state.midiendo) {
-                LiveMeasuringBadge(texto = "Midiendo la luz…", color = gradiente.colors.first(), modifier = Modifier.padding(top = 12.dp))
-            }
-
-            Text(
-                "☀️ Lux actual: ${"%.0f".format(state.luxActual)}",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                FunOutlinedButton(
-                    text = "Habitación",
-                    emoji = "🏠",
-                    onClick = viewModel::registrarComoHabitacion,
-                    enabled = state.midiendo,
-                    color = gradiente.colors.first(),
-                    modifier = Modifier.weight(1f)
-                )
-                FunOutlinedButton(
-                    text = "Sombra",
-                    emoji = "🌑",
-                    onClick = viewModel::registrarComoSombra,
-                    enabled = state.midiendo,
-                    color = gradiente.colors[1],
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.padding(top = 12.dp)
                 )
             }
 
