@@ -1,11 +1,9 @@
 package com.kidslab.pocketphysics.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -32,16 +30,6 @@ private val LightColors = lightColorScheme(
     error = PhysicsRedSoft
 )
 
-private val DarkColors = darkColorScheme(
-    primary = PhysicsCyan,
-    secondary = PhysicsOrange,
-    tertiary = PhysicsPink,
-    background = Color(0xFF13172A),
-    surface = Color(0xFF1E2340),
-    surfaceVariant = Color(0xFF2A2F52),
-    error = PhysicsRedSoft
-)
-
 val PhysicsTypography = Typography(
     displaySmall = TextStyle(fontWeight = FontWeight.ExtraBold, fontSize = 32.sp, letterSpacing = 0.2.sp),
     headlineMedium = TextStyle(fontWeight = FontWeight.ExtraBold, fontSize = 27.sp, letterSpacing = 0.1.sp),
@@ -61,14 +49,17 @@ val PhysicsShapes = Shapes(
     extraLarge = RoundedCornerShape(36.dp)
 )
 
+/**
+ * Tema único de la app: siempre usa la paleta clara y vivosa diseñada para
+ * niños, sin importar si el teléfono está en modo oscuro. Así los colores
+ * (y su contraste con el texto) se ven siempre iguales y legibles.
+ */
 @Composable
 fun PocketPhysicsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColors else LightColors
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = LightColors,
         typography = PhysicsTypography,
         shapes = PhysicsShapes,
         content = content

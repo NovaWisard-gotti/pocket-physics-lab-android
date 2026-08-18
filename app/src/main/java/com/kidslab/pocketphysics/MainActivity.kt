@@ -1,7 +1,9 @@
 package com.kidslab.pocketphysics
 
+import android.graphics.Color as AndroidColor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +20,13 @@ import com.kidslab.pocketphysics.ui.theme.PocketPhysicsTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // La app siempre usa un tema claro (ver PocketPhysicsTheme), así que
+        // la barra de estado y de navegación también deben quedar en modo
+        // claro (íconos oscuros) sin importar el modo del sistema.
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT)
+        )
 
         val container = (application as PocketPhysicsApplication).container
 
